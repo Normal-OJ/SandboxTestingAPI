@@ -2,16 +2,24 @@
 #--coding:utf-8--
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.client import parse_headers
 import json
 class HTTPRequestHandler(BaseHTTPRequestHandler):
-    def __parse_content__(self,con):
+    def __parseContent__(self,con)->dict:
         dic=json.loads(s=con)
-        
-        return None
+        return dict(dic)
+    
     # POST handler
     def do_POST(self):
         sendReply = False
-
+        print("request for",self.path)
+        r_header = dict(self.headers)
+        
+        r_contents=self.rfile.read(int(r_header['Content-Length']))
+        contents=json.loads(s=r_contents)
+        print(contents)
+        
+        #contents=self.__parseContent__(self.rfile.read())
         if sendReply == True:
             try:
                 self.send_response(200)
