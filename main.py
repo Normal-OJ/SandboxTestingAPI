@@ -4,9 +4,10 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from http.client import parse_headers
 import json
-from os import listdir
+from os import listdir,system,chdir
 from urllib.parse import urlparse
 import requests
+import zipfile
 
 test_result={}
 class HTTPRequestHandler(BaseHTTPRequestHandler):
@@ -47,11 +48,21 @@ def run():
     print('running server...')
     httpd.serve_forever()
 
+def zipFolder(src , filename):
+    chdir(src)
+    system(f"zip -qr {filename}.zip *")
+    chdir("..")
+    system(f"mv {src}/{filename}.zip {filename}.zip")
+
 def LoadTestCases(cur_path)->dict:
     testCases = {}
-
-    for i in listdir(cur_path):
-        fp=open(cur_path + i + "settings.json" , "r")
+    chdir("TestCases")
+    for i in listdir():
+        chdir(i)
+        zipFolder("src","source")
+        zipFolder("testCases","testcase")
+        
+        fp=open("settings.json", "r")
         probSetting = ""
         while(True):
             r=fp.readline()
@@ -61,23 +72,21 @@ def LoadTestCases(cur_path)->dict:
         probSetting=json.loads(s=probSetting)
 
         testCases.update({i:{
-            "source"  : cur_path + i + "/main.c" ,
-            "testcase": cur_path + i + "/testcase.zip" ,
+            "source"  : f"{cur_path}/{i}/source.zip",
+            "testcase": f"{cur_path}/{i}/testcase.zip" ,
             "checker" : "",
-            "languageid": 0,
+            "languageId": probSetting["languageId"],
             "token":"wry!!!",
-            "timeLimit":probSetting["timeLimits"],
-            "memoryLimit":probSetting["memoryLimits"],
-            "submissionId":int(probSetting["problemId"]),         #problemId == submissionId
+            "submissionId":int(probSetting["problemId"])         #problemId == submissionId
         }})
-
         test_result.update({int(probSetting["problemId"]):{
             "isPending":True,
             "title":i,
             "expectedResult":probSetting["expectedResult"],
             "RealResult":""
         }})
-    
+        chdir("..")
+    chdir("..")
     return testCases
 def SendRequest(ip,content):
     header={
@@ -87,8 +96,6 @@ def SendRequest(ip,content):
         "checker":content["checker"],
         "languageId":content["languageId"],
         "token":content["token"],
-        "timeLimit":content["timeLimits"],
-        "memoryLimit":content["memoryLimits"],
         "submissionId":content["submissionId"]
     }
     file={
@@ -103,8 +110,8 @@ def SendRequest(ip,content):
 
 if __name__ == '__main__':
     cur_path = "./TestCases"
-    dst="127.0.0.1"
+    dst="http://127.0.0.1"
     testCases=dict(LoadTestCases(cur_path))
     for i in list(testCases.keys()):
         SendRequest(dst,testCases[i])
-    run()
+    #run()
