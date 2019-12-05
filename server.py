@@ -1,14 +1,10 @@
-#!/usr/bin/env python
-#--coding:utf-8--
-
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from http.client import parse_headers
-import json
-from os import listdir,system,chdir
 from urllib.parse import urlparse
-import requests
-import zipfile
-
+from os import listdir,system,chdir
+import json
+import threading
+import time
 test_result={}
 class HTTPRequestHandler(BaseHTTPRequestHandler):
     # POST handler
@@ -47,21 +43,13 @@ def run():
     httpd = HTTPServer(server_address, HTTPRequestHandler)
     print('running server...')
     httpd.serve_forever()
+    print('successfully create the server')
 
-def zipFolder(src , filename):
-    chdir(src)
-    system(f"zip -qr {filename}.zip *")
-    chdir("..")
-    system(f"mv {src}/{filename}.zip {filename}.zip")
-
-def LoadTestCases(cur_path)->dict:
+def readConfig():
     testCases = {}
     chdir("TestCases")
     for i in listdir():
         chdir(i)
-        zipFolder("src","source")
-        zipFolder("testCases","testcase")
-        
         fp=open("settings.json", "r")
         probSetting = ""
         while(True):
@@ -71,14 +59,6 @@ def LoadTestCases(cur_path)->dict:
             probSetting+=r
         probSetting=json.loads(s=probSetting)
 
-        testCases.update({i:{
-            "source"  : f"{cur_path}/{i}/source.zip",
-            "testcase": f"{cur_path}/{i}/testcase.zip" ,
-            "checker" : "",
-            "languageId": probSetting["languageId"],
-            "token":"wry!!!",
-            "submissionId":int(probSetting["problemId"])         #problemId == submissionId
-        }})
         test_result.update({int(probSetting["problemId"]):{
             "isPending":True,
             "title":i,
@@ -87,31 +67,56 @@ def LoadTestCases(cur_path)->dict:
         }})
         chdir("..")
     chdir("..")
-    return testCases
-def SendRequest(ip,content):
-    header={
-        "content-type":"fuckyou"
-    }
-    body={
-        "checker":content["checker"],
-        "languageId":content["languageId"],
-        "token":content["token"],
-        "submissionId":content["submissionId"]
-    }
-    file={
-        "source":open(content["source"],"rb"),
-        "testcase":open(content["testcase"],"rb")
-    }
-    resp = requests.post(ip,headers=header,data=body,files=file)
-    if(resp.status_code != 200):
-        print("Error Occur!!")
-        return False
+
+def checkIfFinished():
+    for i in list(test_result.keys()):
+        if test_result[i]['isPending'] == True:
+            return False
     return True
 
+def compareResult(filename):
+    ts = time.strftime('%Y%m%d%H%M%S', time.localtime())
+    fp = open("{0}{1}.report".format(filename , ts) , "w")
+    fp.write('[')
+    commma_enable = False
+    for i in list(test_result.keys()):
+        report = {}
+        if test_result[i]['expectedResult'] != test_result[i]['RealResult'] :
+            report.update({
+                "problemId":i,
+                "name":test_result[i]['title'],
+                "status":"Failed",
+                "expectedResult":test_result[i]['expectedResult'],
+                "RealResult":test_result[i]['RealResult']
+            })
+        else:
+            report.update({
+                "problemId":i,
+                "name":test_result[i]['title'],
+                "status":"Passed"
+            })
+        
+        if commma_enable:
+            fp.write(',')
+        else:
+            commma_enable = True
+        fp.write(str(report))
+    fp.write(']')
+    fp.close()
 if __name__ == '__main__':
-    cur_path = "./TestCases"
-    dst="http://127.0.0.1"
-    testCases=dict(LoadTestCases(cur_path))
-    for i in list(testCases.keys()):
-        SendRequest(dst,testCases[i])
-    #run()
+    
+    readConfig()
+    
+    server_thread = threading.Thread(target = run)
+    server_thread.start()
+    while(not checkIfFinished()):
+        print(test_result)
+        time.sleep(1)
+    server_thread._delete()
+
+    
+
+
+    
+    
+    
