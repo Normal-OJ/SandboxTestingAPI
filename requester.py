@@ -58,8 +58,7 @@ def SendRequest(ip,content):
         print("Error Occur!!")
         return False
     return True
-
-if __name__ == '__main__':
+def requestingJob():
     cur_path = "./TestCases"
     dst="http://127.0.0.1"
     testCases=dict(LoadTestCases(cur_path))

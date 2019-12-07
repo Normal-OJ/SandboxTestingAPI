@@ -1,5 +1,9 @@
 {
     "languageId":0,
     "problemId":1,
-    "expectedResult":"RE"
+    "expectedResult":[
+        {
+            
+        }
+    ]
 }
