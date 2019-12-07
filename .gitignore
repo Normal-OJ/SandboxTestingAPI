@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# vscode settings
+.vscode
+
+# Tester Output
+Test[0-9]*.report
