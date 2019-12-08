@@ -1,0 +1,16 @@
+{
+    "languageId":0,
+    "problemId":"C_divZero",
+    "expectedResult":[
+        {
+            "problemStatusId":[
+                "RE"
+            ]
+        },
+        {
+            "problemStatusId":[
+                "WA"
+            ]
+        }
+    ]
+}
