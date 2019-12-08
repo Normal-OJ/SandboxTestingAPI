@@ -1,0 +1,11 @@
+{
+    "languageId":2,
+    "problemId":"Python_abFileRead",
+    "expectedResult":[
+        {
+            "problemStatusId":[
+                "RE"
+            ]
+        }
+    ]
+}

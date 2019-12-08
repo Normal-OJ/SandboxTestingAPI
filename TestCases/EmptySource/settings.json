@@ -1,0 +1,11 @@
+{
+    "languageId":0,
+    "problemId":"EmptySource",
+    "expectedResult":[
+        {
+            "problemStatusId":[
+                "CE"
+            ]
+        }
+    ]
+}
