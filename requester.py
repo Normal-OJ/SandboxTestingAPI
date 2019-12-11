@@ -4,15 +4,18 @@ import json
 from os import listdir,system,chdir
 import requests
 import zipfile
-
+import threading
+import StartTest
+import sys
 def zipFolder(src , filename):
     chdir(src)
     system(f"zip -qr {filename}.zip *")
     chdir("..")
     system(f"mv {src}/{filename}.zip {filename}.zip")
 
-def LoadTestCases(cur_path)->dict:
+def LoadTestCases()->dict:
     testCases = {}
+    cur_path="./TestCases"
     chdir("TestCases")
     for i in listdir():
         chdir(i)
@@ -34,10 +37,11 @@ def LoadTestCases(cur_path)->dict:
             "checker" : "",
             "languageId": probSetting["languageId"],
             "token":"wry!!!",
-            "submissionId":int(probSetting["problemId"])         #problemId == submissionId
+            "submissionId":probSetting["problemId"]         #problemId == submissionId
         }})
         chdir("..")
     chdir("..")
+    print("end of Loading test cases",file=sys.stderr)
     return testCases
 def SendRequest(ip,content):
     header={
@@ -55,12 +59,14 @@ def SendRequest(ip,content):
     }
     resp = requests.post(ip,headers=header,data=body,files=file)
     if(resp.status_code != 200):
-        print("Error Occur!!")
+        print("Error Occur!!",file=sys.stderr)
         return False
     return True
 def requestingJob():
-    cur_path = "./TestCases"
+    print("start sending requests",file=sys.stderr)
+    StartTest.Lock.acquire()
     dst="http://127.0.0.1"
-    testCases=dict(LoadTestCases(cur_path))
+    testCases=dict(LoadTestCases())
     for i in list(testCases.keys()):
         SendRequest(dst,testCases[i])
+    StartTest.Lock.release()

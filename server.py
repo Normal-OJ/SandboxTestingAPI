@@ -1,25 +1,22 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from http.client import parse_headers
 from urllib.parse import urlparse
-from os import listdir,system,chdir
+from os import listdir,system,chdir,system
 import json
 import threading
 import time
 import sys
+import StartTest
 probSetting = {}
 test_result = {}
+
 class HTTPRequestHandler(BaseHTTPRequestHandler):
     # POST handler
     def do_POST(self):
-        sendReply = False
-        print("request for",self.path)
+        print("request for",self.path,file=sys.stderr)
         r_header = dict(self.headers)
         
         p_id= str(urlparse(self.path).path).replace('/submission/','')
-
-        print("List:" , list(test_result.keys()))
-        print("pid:" , p_id)
-        print("p_id not in list(test_result.keys())",p_id not in list(test_result.keys()))
         if p_id not in list(test_result.keys()):
             self.send_error(404,'Error request')
         else:
@@ -27,10 +24,8 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
             # getting content of a request
             r_contents=self.rfile.read(int(r_header['Content-Length']))
             contents=dict(json.loads(s=r_contents))
-            if(contents != None):
-                sendReply = True
-            print("receiving:")
-            print(contents)
+            print("receiving:",file=sys.stderr)
+            print(contents,file=sys.stderr)
 
             test_result[p_id]["RealResult"] = contents
             test_result[p_id]["isPending"] = False
@@ -76,6 +71,8 @@ def checkRequire(obj,filter):
     filter = dict(filter)
 
     for i in list(filter.keys()):
+        if i not in list(obj.keys()):
+            return False
         if obj[i] != filter[i] :
             return False
     return True
@@ -85,7 +82,7 @@ def checkRequire(obj,filter):
 '''
 def compareResult(problemId):
     for expect in list(test_result[problemId]['expectedResult']):
-        if checkRequire(test_result , expect):
+        if checkRequire(test_result[problemId]['RealResult'] , expect):
             return True
     return False
 
@@ -99,7 +96,7 @@ def exportResult(filename):
     commma_enable = False
     for i in list(test_result.keys()):
         report = {}
-        if compareResult(i) :
+        if compareResult(i)==False:
             report.update({
                 "problemId":i,
                 "name":test_result[i]['title'],
@@ -127,9 +124,9 @@ def run():
     # Server settings
     port = 6666
     server_address = ('127.0.0.1', port)
-    print('starting server, port', port)
+    print('starting server, port', port ,file=sys.stderr)
     httpd = HTTPServer(server_address, HTTPRequestHandler)
-    print('running server...')
+    print('running server...' , file=sys.stderr)
     # witing for receiving
     while(not checkIfFinished()):
         httpd.handle_request()
@@ -138,13 +135,14 @@ def run():
 def displayTestResult():
     while(not checkIfFinished()):
         for i in list(test_result.keys()):
-            print(i," is Pending:",test_result[i]['isPending'])
+            print(i," is Pending:",test_result[i]['isPending'] ,file=sys.stderr)
         time.sleep(3)
     
 def receiverJob():
+    StartTest.Lock.acquire()
     readConfig()
-    print("done of reading config")
-
+    print("done of reading config" , file=sys.stderr)
+    StartTest.Lock.release()
     works = []
     works.append(threading.Thread(target=run))
     works.append(threading.Thread(target=displayTestResult))
@@ -155,7 +153,7 @@ def receiverJob():
         i.join()
 
 
-    print("done of receiving result , exporting Testing Profile")
+    print("done of receiving result , exporting Testing Profile",file=sys.stderr)
     exportResult("Test")
-    print("Successfully export the Testing Result,End of Testing")
+    print("Successfully export the Testing Result,End of Testing",file=sys.stderr)
     
