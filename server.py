@@ -17,29 +17,27 @@ class HTTPRequestHandler(BaseHTTPRequestHandler):
         
         p_id= str(urlparse(self.path).path).replace('/submission/','')
 
-        if(p_id == "" or not ( int(p_id) in test_result.keys() )):
+        print("List:" , list(test_result.keys()))
+        print("pid:" , p_id)
+        print("p_id not in list(test_result.keys())",p_id not in list(test_result.keys()))
+        if p_id not in list(test_result.keys()):
             self.send_error(404,'Error request')
         else:
-            p_id = int(p_id)
+            p_id = p_id
             # getting content of a request
             r_contents=self.rfile.read(int(r_header['Content-Length']))
             contents=dict(json.loads(s=r_contents))
             if(contents != None):
                 sendReply = True
-            print("server's test result")
-            print(test_result)
+            print("receiving:")
+            print(contents)
+
             test_result[p_id]["RealResult"] = contents
             test_result[p_id]["isPending"] = False
-            sendReply = True
-            self.server.server_close()
-            if sendReply == True:
-                try:
-                    self.send_response(200)
-                    self.send_header('Content-type','application/json; charset=utf-8')
-                    self.end_headers()
-                    self.wfile.write("success")
-                except:
-                    self.send_error(404,'Error')
+            self.send_response(200)
+            self.send_header('Content-type','application/json; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(b"success")
 
 def readConfig():
     chdir("TestCases")
@@ -54,7 +52,7 @@ def readConfig():
             probSetting+=r
         probSetting=json.loads(s=probSetting)
 
-        test_result.update({int(probSetting["problemId"]):{
+        test_result.update({probSetting["problemId"]:{
             "isPending":True,
             "title":i,
             "expectedResult":probSetting["expectedResult"],
@@ -139,7 +137,8 @@ def run():
 
 def displayTestResult():
     while(not checkIfFinished()):
-        print(test_result)
+        for i in list(test_result.keys()):
+            print(i," is Pending:",test_result[i]['isPending'])
         time.sleep(3)
     
 def receiverJob():
