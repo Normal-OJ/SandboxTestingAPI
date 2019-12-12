@@ -1,9 +1,0 @@
-{
-    "case":[
-        {
-            "caseScore": 100,
-            "memoryLimit": 512,
-            "timeLimit": 1000
-        }
-    ]
-}
