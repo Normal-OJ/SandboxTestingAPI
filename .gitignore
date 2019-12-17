@@ -109,3 +109,11 @@ venv.bak/
 
 # Tester Output
 Test[0-9]*.report
+
+# pycache
+__pycache__/*
+__pycache__
+
+
+# Test report
+*.report

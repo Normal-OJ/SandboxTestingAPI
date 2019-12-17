@@ -33,7 +33,7 @@ programTypeForInvoker2programType={
     "cpp.g++11":"C++",
     "python.3":"Python3"
 }
-def findSpecifySubmissionIds(CONTEST_ID,verdictName,programTypeForInvoker)->list:
+def findSpecifySubmissionIds(CONTEST_ID,verdictName,programTypeForInvoker,problemIndex)->list:
     """
         query all the match sample during a specify contest
 
@@ -45,6 +45,8 @@ def findSpecifySubmissionIds(CONTEST_ID,verdictName,programTypeForInvoker)->list
 
         programTypeForInvoker: the language of program
 
+        problemIndex: the Index of problem
+        
         Return Value:
 
         a list of ids (list[int]) 
@@ -56,7 +58,7 @@ def findSpecifySubmissionIds(CONTEST_ID,verdictName,programTypeForInvoker)->list
     redirectPostData={
         "csrf_token":str(csrfToken['content']),
         "action":"setupSubmissionFilter",
-        "frameProblemIndex":"anyProblem",
+        "frameProblemIndex":problemIndex,
         "verdictName":verdictName,
         "programTypeForInvoker":programTypeForInvoker,
         "comparisonType":"NOT_USED"
@@ -73,7 +75,7 @@ def findSpecifySubmissionIds(CONTEST_ID,verdictName,programTypeForInvoker)->list
         ret.append(i["submissionid"])
     return ret
 
-def getSubmittion(CONTEST_ID,SUBMISSION_ID):
+def getSubmittion(CONTEST_ID,SUBMISSION_ID,getTestCase):
     """
         get the specify submittion by CONTEST_ID and SUBMISSION_ID
 
@@ -82,6 +84,8 @@ def getSubmittion(CONTEST_ID,SUBMISSION_ID):
         CONTEST_ID: the contest id
 
         SUBMISSION_ID: the submission id
+
+        getTestCase: wheather to get testCases
 
         Return Values:
 
@@ -108,21 +112,46 @@ def getSubmittion(CONTEST_ID,SUBMISSION_ID):
     data=dict(json.loads(res.text))
     
     sourceCode=data["source"]
-    testCaseNum=data["testCount"]
-    
+    testCaseNum=int(data["testCount"])
     testCases=[]
-    # extracting data
-    for i in range(1,testCaseNum+1):
-        if str(data["input#"+str(i)]).find("...")!=-1 or str(data["answer#"+str(1)]).find("...")!=-1:
-            continue
-        testCases.append({
-            "input":data["input#"+str(i)],
-            "output":data["answer#"+str(1)],
-            "verdict":data["verdict#"+str(i)]
-        })
+
+    if getTestCase == True:
+        # extracting data
+        for i in range(1,testCaseNum+1):
+            if str(data["input#"+str(i)]).find("...")!=-1 or str(data["answer#"+str(1)]).find("...")!=-1:
+                continue
+            testCases.append({
+                "input":data["input#"+str(i)],
+                "output":data["answer#"+str(1)],
+                "verdict":data["verdict#"+str(i)]
+            })
     
     return sourceCode , data["compilationError"] , testCases
     
+def buildProblemList(CONTEST_ID):
+    ses=requests.session()
+    res=ses.get("https://codeforces.com/contest/{0}/status".format(str(CONTEST_ID)))
+    soup=bs4.BeautifulSoup(res.text,"html.parser").find("select",{"class":"setting-value"} , "html.parser")
+    soup=soup.find_all("option")
+    
+    problemIdList = []
+    for i in soup:
+        problemIdList.append(i["value"])
+    
+    problemDataSet={}
+    for i in problemIdList:
+        if i == "anyProblem":
+            continue
+        submitIdList = findSpecifySubmissionIds(CONTEST_ID , "OK" , "anyProgramTypeForInvoker" , i)
+        _ , _ , testCases = getSubmittion(CONTEST_ID , submitIdList[0],True)
+        if len(testCases)!=0:
+            problemDataSet.update({i:testCases})
+    
+    return problemDataSet
+
+
+
 if __name__ == "__main__":
     #print(findSpecifySubmissionIds(1265,"OK","c.gcc11"))
-    getSubmittion(132,61898597)
+    #getSubmittion(132,61898597)
+    print(buildProblemList(1169))
