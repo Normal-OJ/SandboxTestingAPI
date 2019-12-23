@@ -93,7 +93,12 @@ def getSubmittion(CONTEST_ID,SUBMISSION_ID,getTestCase):
 
         compilationError: wheather it's a CE case (boolean)
 
-        testCases: a list of dictory with testcases (list[dict])
+        testCases: 
+        
+        if getTest is True, return a list of dictory with testcases (list[dict])
+
+        otherwise, return the judge status of a problem
+
     """
     ses=requests.session()
     res=ses.get("https://codeforces.com/contest/{0}/submission/{1}".format(str(CONTEST_ID),str(SUBMISSION_ID)))
@@ -123,12 +128,30 @@ def getSubmittion(CONTEST_ID,SUBMISSION_ID,getTestCase):
             testCases.append({
                 "input":data["input#"+str(i)],
                 "output":data["answer#"+str(1)],
-                "verdict":data["verdict#"+str(i)]
+                "verdict":data["verdict#"+str(i)],
+                "num":i
+            })
+    else:
+        for i in range(1,testCaseNum+1):
+            testCases.append({
+                "verdict":data["verdict#"+str(i)],
+                "num":i
             })
     
     return sourceCode , data["compilationError"] , testCases
     
 def buildProblemList(CONTEST_ID):
+    """
+        create a avaible problem base
+
+        Parameter:
+
+        CONTEST_ID: the submission id
+
+        Return Values:
+
+        problemDataSet: a json like object dictionary with problem question set
+    """
     ses=requests.session()
     res=ses.get("https://codeforces.com/contest/{0}/status".format(str(CONTEST_ID)))
     soup=bs4.BeautifulSoup(res.text,"html.parser").find("select",{"class":"setting-value"} , "html.parser")
@@ -149,9 +172,81 @@ def buildProblemList(CONTEST_ID):
     
     return problemDataSet
 
+def getProcessedCode(CONTEST_ID , verdictName , programTypeForInvoker , frameProblemIndex , problemDB):
+    """
+        construct specify processed submission base on the condiction it given
+
+        Parameter:
+
+        CONTEST_ID: the submission id
+
+        verdictName: the submission status of a problem, ex:AC,WA...
+
+        programTypeForInvoker: the language of program
+
+        frameProblemIndex: the specify problem id
+
+        problemDB: avaible problem database
+
+        Return Values:
+
+        problemDataSet: a json like object dictionary with problem question set
+    """
+    targetSubIds = findSpecifySubmissionIds(CONTEST_ID , verdictName , programTypeForInvoker , frameProblemIndex)
+
+    codes=[]
+    for id in targetSubIds:
+        sourceCode , compilationError , testCases = getSubmittion(CONTEST_ID , id ,False)
+        
+        if compilationError:
+            codes.append({
+                "language":programTypeForInvoker,
+                "sourceCode":sourceCode,
+                "verdict":verdictName,
+                "testCaseName:":str(verdictName)+str(id),
+                "CodeForceProblemId":frameProblemIndex,
+                "targetCaseNums":[]
+            })
+            continue
+
+        elif verdictName != "OK":
+            testCases = [ case for case in testCases if not case["verdict"] == verdictName ]
+            if len(testCases) == 0 :
+                continue
+
+        targetCaseNums=[]
+        for case in testCases:
+            findcase=False
+            for  probcase in problemDB[frameProblemIndex]:
+                if probcase["id"] == case["id"]:
+                    findcase=True
+                    break
+            
+            if findcase:
+                targetCaseNums.append(case[id])
+        
+        if len(targetCaseNums) == 0:
+            continue
+        
+        codes.append({
+            "language":programTypeForInvoker,
+            "sourceCode":sourceCode,
+            "verdict":verdictName,
+            "testCaseName:":str(verdictName)+str(id),
+            "CodeForceProblemId":frameProblemIndex,
+            "targetCaseNums":targetCaseNums
+        })
+    return codes
+
+
+    
+
 
 
 if __name__ == "__main__":
     #print(findSpecifySubmissionIds(1265,"OK","c.gcc11"))
     #getSubmittion(132,61898597)
-    print(buildProblemList(1169))
+    #print(buildProblemList(1169))
+    problemDB = buildProblemList(1265)
+    getProcessedCode(1265 , "OK" ,"c.gcc11" , "E" , problemDB)
+    pass
