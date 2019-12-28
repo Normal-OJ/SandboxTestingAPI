@@ -14,13 +14,13 @@ def zipFolder(src , filename):
     system(f"mv {src}/{filename}.zip {filename}.zip")
 
 def LoadTestCases()->dict:
-    testCases = {}
+    testcases = {}
     cur_path="./TestCases"
     chdir("TestCases")
     for i in listdir():
         chdir(i)
         zipFolder("src","source")
-        zipFolder("testCases","testcase")
+        zipFolder("testcases","testcase")
         
         fp=open("settings.json", "r")
         probSetting = ""
@@ -31,7 +31,7 @@ def LoadTestCases()->dict:
             probSetting+=r
         probSetting=json.loads(s=probSetting)
 
-        testCases.update({i:{
+        testcases.update({i:{
             "source"  : f"{cur_path}/{i}/source.zip",
             "testcase": f"{cur_path}/{i}/testcase.zip" ,
             "checker" : "",
@@ -42,10 +42,10 @@ def LoadTestCases()->dict:
         chdir("..")
     chdir("..")
     print("end of Loading test cases",file=sys.stderr)
-    return testCases
+    return testcases
 def SendRequest(ip,content):
     header={
-        "content-type":"fuckyou"
+        "content-type":"multipart/form-data"
     }
     body={
         "checker":content["checker"],
@@ -66,7 +66,7 @@ def requestingJob():
     print("start sending requests",file=sys.stderr)
     StartTest.Lock.acquire()
     dst="http://localhost:1450"
-    testCases=dict(LoadTestCases())
-    for i in list(testCases.keys()):
-        SendRequest(dst,testCases[i])
+    testcases=dict(LoadTestCases())
+    for i in list(testcases.keys()):
+        SendRequest(dst,testcases[i])
         StartTest.Lock.release()
