@@ -65,7 +65,7 @@ def SendRequest(ip,content):
 def requestingJob():
     print("start sending requests",file=sys.stderr)
     StartTest.Lock.acquire()
-    dst="http://localhost:1450"
+    dst="http://normal-oj_sandbox:1450"
     testcases=dict(LoadTestCases())
     for i in list(testcases.keys()):
         SendRequest(dst,testcases[i])
