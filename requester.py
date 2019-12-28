@@ -20,7 +20,7 @@ def LoadTestCases()->dict:
     for i in listdir():
         chdir(i)
         zipFolder("src","source")
-        zipFolder("testcases","testcase")
+        zipFolder("testcase","testcase")
         
         fp=open("settings.json", "r")
         probSetting = ""
