@@ -122,7 +122,7 @@ def exportResult(filename):
 
 def run():
     # Server settings
-    port = 6666
+    port = 8080
     server_address = ('127.0.0.1', port)
     print('starting server, port', port ,file=sys.stderr)
     httpd = HTTPServer(server_address, HTTPRequestHandler)

@@ -50,23 +50,23 @@ def SendRequest(ip,content):
     body={
         "checker":content["checker"],
         "languageId":content["languageId"],
-        "token":content["token"],
-        "submissionId":content["submissionId"]
+        "token": content["token"]
     }
     file={
-        "source":open(content["source"],"rb"),
-        "testcase":open(content["testcase"],"rb")
+        "code": ('dmkaspdmaspd', open(content["source"],"rb")),
+        "testcase": ('sadas', open(content["testcase"],"rb"))
     }
-    resp = requests.post(ip,headers=header,data=body,files=file)
+    resp = requests.post(f'{ip}/submit/{content["submissionId"]}',data=body,files=file)
     if(resp.status_code != 200):
         print("Error Occur!!",file=sys.stderr)
+        print(f'Get response: {resp.text}')
         return False
     return True
 def requestingJob():
     print("start sending requests",file=sys.stderr)
     StartTest.Lock.acquire()
-    dst="http://127.0.0.1"
+    dst="http://localhost:1450"
     testCases=dict(LoadTestCases())
     for i in list(testCases.keys()):
         SendRequest(dst,testCases[i])
-    StartTest.Lock.release()
+        StartTest.Lock.release()
