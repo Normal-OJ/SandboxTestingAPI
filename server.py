@@ -12,7 +12,7 @@ test_result = {}
 
 class HTTPRequestHandler(BaseHTTPRequestHandler):
     # POST handler
-    def do_POST(self):
+    def do_PUT(self):
         print("request for",self.path,file=sys.stderr)
         r_header = dict(self.headers)
         
