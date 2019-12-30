@@ -123,7 +123,7 @@ def exportResult(filename):
 def run():
     # Server settings
     port = 8080
-    server_address = ('127.0.0.1', port)
+    server_address = ('normal-oj_sandboxtesting', port)
     print('starting server, port', port ,file=sys.stderr)
     httpd = HTTPServer(server_address, HTTPRequestHandler)
     print('running server...' , file=sys.stderr)
