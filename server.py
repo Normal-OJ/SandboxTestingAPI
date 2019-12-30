@@ -6,6 +6,7 @@ import json
 import threading
 import time
 import sys
+import os
 import StartTest
 probSetting = {}
 test_result = {}
@@ -122,8 +123,9 @@ def exportResult(filename):
 
 def run():
     # Server settings
-    port = 8080
-    server_address = ('normal-oj_sandboxtesting', port)
+    port = os.environ.get("API_PORT",8080)
+    baseurl= os.environ.get("BASEURL" , "127.0.0.1")
+    server_address = (baseurl, port)
     print('starting server, port', port ,file=sys.stderr)
     httpd = HTTPServer(server_address, HTTPRequestHandler)
     print('running server...' , file=sys.stderr)

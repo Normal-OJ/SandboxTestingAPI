@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #--coding:utf-8--
 import json
-from os import listdir,system,chdir
+from os import listdir,system,chdir,environ
 import requests
 import zipfile
 import threading
@@ -65,7 +65,9 @@ def SendRequest(ip,content):
 def requestingJob():
     print("start sending requests",file=sys.stderr)
     StartTest.Lock.acquire()
-    dst="http://normal-oj_sandbox:1450"
+    dst_base = environ.get("SANDBOX_BASEURL","127.0.0.1")
+    dst_port = environ.get("SANDBOX_PORT",8080)
+    dst="http://{dst_base}:{dst_port}".format(dst_base , dst_port)
     testcases=dict(LoadTestCases())
     for i in list(testcases.keys()):
         SendRequest(dst,testcases[i])
