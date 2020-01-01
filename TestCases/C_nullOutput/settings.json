@@ -3,7 +3,7 @@
     "problemId":"C_nullOutput",
     "expectedResult":[
         {
-            "problemStatusId":"WA"
+            "status": 1
         }
     ]
 }

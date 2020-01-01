@@ -3,7 +3,7 @@
     "problemId":"C_bashCaller",
     "expectedResult":[
         {
-            "problemStatusId":"RE"
+            "status": 5
         }
     ]
 }

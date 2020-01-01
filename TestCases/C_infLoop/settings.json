@@ -3,10 +3,7 @@
     "problemId":"C_infLoop",
     "expectedResult":[
         {
-            "problemStatusId":"TLE"
-        },
-        {
-            "problemStatusId":"OLE"
+            "status": 3
         }
     ]
 }

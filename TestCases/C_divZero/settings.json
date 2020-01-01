@@ -3,10 +3,10 @@
     "problemId":"C_divZero",
     "expectedResult":[
         {
-            "problemStatusId":"RE"
+            "status": 5
         },
         {
-            "problemStatusId":"WA"
+            "status": 1
         }
     ]
 }

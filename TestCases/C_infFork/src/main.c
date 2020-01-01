@@ -5,7 +5,7 @@
 int main(){
     for(int u=0;u!=500;++u)
     {
-        pid_t PID = fork();
+        int PID = fork();
         if(PID==0)
         {
             printf("Child's PID is %d\n", getpid());

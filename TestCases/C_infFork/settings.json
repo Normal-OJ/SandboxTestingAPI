@@ -3,7 +3,7 @@
     "problemId":"C_infFork",
     "expectedResult":[
         {
-            "problemStatusId":"RE"
+            "status": 5
         }
     ]
 }

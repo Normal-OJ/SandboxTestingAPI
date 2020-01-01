@@ -3,7 +3,7 @@
     "problemId":"C_abFileWrite",
     "expectedResult":[
         {
-            "problemStatusId":"RE"
+            "status": 5
         }
     ]
 }

@@ -3,7 +3,7 @@
     "problemId":"C_rebootAttack",
     "expectedResult":[
         {
-            "problemStatusId":"RE"
+            "status": 5
         }
     ]
 }

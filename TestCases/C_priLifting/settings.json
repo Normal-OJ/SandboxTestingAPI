@@ -3,13 +3,7 @@
     "problemId":"C_priLifting",
     "expectedResult":[
         {
-            "problemStatusId":"WA",
-            "stdout":[
-                "can not set effective uid\ncan not set uid\n"
-            ]
-        },
-        {
-            "problemStatusId":"RE"
+            "status": 5
         }
     ]
 }

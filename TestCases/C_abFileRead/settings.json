@@ -3,7 +3,7 @@
     "problemId":"C_abFileRead",
     "expectedResult":[
         {
-            "problemStatusId":"RE"
+            "status": 5
         }
     ]
 }

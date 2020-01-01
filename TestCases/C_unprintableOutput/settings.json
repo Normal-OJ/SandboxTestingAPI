@@ -3,7 +3,7 @@
     "problemId":"C_unprintableOutput",
     "expectedResult":[
         {
-            "problemStatusId":"WA"
+            "status": 1
         }
     ]
 }

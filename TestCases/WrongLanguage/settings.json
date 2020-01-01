@@ -3,7 +3,7 @@
     "problemId":"WrongLanguage",
     "expectedResult":[
         {
-            "problemStatusId":"CE"
+            "status": 2
         }
     ]
 }

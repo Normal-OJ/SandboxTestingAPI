@@ -3,7 +3,7 @@
     "problemId":"C_execve",
     "expectedResult":[
         {
-            "problemStatusId":"RE"
+            "status": 5
         }
     ]
 }

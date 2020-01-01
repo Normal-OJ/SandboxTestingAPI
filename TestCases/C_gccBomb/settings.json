@@ -3,7 +3,7 @@
     "problemId":"C_gccBomb",
     "expectedResult":[
         {
-            "problemStatusId":"CE"
+            "status": 2
         }
     ]
 }

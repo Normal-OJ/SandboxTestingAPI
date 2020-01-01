@@ -66,6 +66,7 @@ def checkIfFinished( sh_dict ):
     for i in list(sh_dict.keys()):
         if sh_dict[i]['isPending'] == True:
             print("checked if finished ended")
+            StartTest.Lock.release()
             return False
     print("check if finished end")
     StartTest.Lock.release()
@@ -141,10 +142,14 @@ def run(sh_dict):
     while(not checkIfFinished(sh_dict)):
         print("try to handle one request")
         httpd.handle_request()
+
+        StartTest.Lock.acquire()
         for i in req_buffer:
-            sh_dict[i]["isPending"] = False
+            sh_dict[i] ={"isPending" : False}
+        StartTest.Lock.release()
+
         req_buffer.clear()
-        print("i am alive")
+        print("handle ended")
     httpd.server_close()
 
 def displayTestResult(sh_dict):
@@ -168,7 +173,7 @@ def receiverJob(sh_dict):
     
     works = []
     works.append(threading.Thread(target=run , args = (sh_dict ,)))
-    works.append(threading.Thread(target=displayTestResult , args = (sh_dict ,) ))
+    #works.append(threading.Thread(target=displayTestResult , args = (sh_dict ,) ))
 
     for i in works:
         i.start()
