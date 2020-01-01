@@ -1,0 +1,9 @@
+{
+    "languageId":0,
+    "problemId":"WrongLanguage",
+    "expectedResult":[
+        {
+            "problemStatusId":"CE"
+        }
+    ]
+}

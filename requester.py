@@ -6,9 +6,11 @@ import requests
 import zipfile
 import threading
 import StartTest
-import sys
+import sys  
+
 def zipFolder(src , filename):
     chdir(src)
+    #print("zip command:{0}".format(f"zip -qr {filename}.zip . -i *") , file = sys.stderr)
     system(f"zip -qr {filename}.zip *")
     chdir("..")
     system(f"mv {src}/{filename}.zip {filename}.zip")
@@ -18,6 +20,7 @@ def LoadTestCases()->dict:
     cur_path="./TestCases"
     chdir("TestCases")
     for i in listdir():
+        print("try to zip {0}".format(i))
         chdir(i)
         zipFolder("src","source")
         zipFolder("testcase","testcase")
@@ -62,13 +65,16 @@ def SendRequest(ip,content):
         print(f'Get response: {resp.text}')
         return False
     return True
-def requestingJob():
+def requestingJob(sh_dict):
     print("start sending requests",file=sys.stderr)
     StartTest.Lock.acquire()
     dst_base = environ.get("SANDBOX_BASEURL","127.0.0.1")
     dst_port = environ.get("SANDBOX_PORT",8080)
-    dst="http://{dst_base}:{dst_port}".format(dst_base , dst_port)
+    dst="http://{0}:{1}".format(str(dst_base) ,str(dst_port))
     testcases=dict(LoadTestCases())
     for i in list(testcases.keys()):
-        SendRequest(dst,testcases[i])
-        StartTest.Lock.release()
+        print("sending request:{0}".format(i))
+        if SendRequest(dst,testcases[i]) == False:
+            sh_dict[i] = {"isPending":False}
+    print("end of requester")
+    StartTest.Lock.release()

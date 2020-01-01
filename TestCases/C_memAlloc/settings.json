@@ -1,0 +1,9 @@
+{
+    "languageId":0,
+    "problemId":"C_memAlloc",
+    "expectedResult":[
+        {
+            "problemStatusId":"MLE"
+        }
+    ]
+}

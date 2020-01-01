@@ -1,0 +1,9 @@
+{
+    "languageId":2,
+    "problemId":"Python_cLibCall",
+    "expectedResult":[
+        {
+            "problemStatusId":"RE"
+        }
+    ]
+}

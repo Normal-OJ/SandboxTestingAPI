@@ -1,0 +1,12 @@
+{
+    "languageId":0,
+    "problemId":"C_infLoop",
+    "expectedResult":[
+        {
+            "problemStatusId":"TLE"
+        },
+        {
+            "problemStatusId":"OLE"
+        }
+    ]
+}

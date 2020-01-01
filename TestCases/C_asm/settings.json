@@ -1,0 +1,9 @@
+{
+    "languageId":0,
+    "problemId":"C_asm",
+    "expectedResult":[
+        {
+            "problemStatusId":"RE"
+        }
+    ]
+}
