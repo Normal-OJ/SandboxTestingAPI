@@ -1,0 +1,42 @@
+[
+    {
+        "language": "c.gcc11",
+        "sourceCode": "#include<stdio.h>\r\nlong long int modpow(long long int a, long long int n, long long int p)\r\n{\r\n\tif (a < 0)\r\n\t\treturn 0;\r\n\tlong long int res = 1;\r\n\twhile (n > 0)\r\n\t{\r\n\t\tif (n % 2 > 0)\r\n\t\t\tres = res * a % p;\r\n\t\ta = a * a % p;\r\n\t\tn /= 2;\r\n\t}\r\n\treturn res;\r\n}\r\nint main()\r\n{\r\n\tlong long int n, i, p[200005];\r\n\tscanf(\"%lld\", &n);\r\n\tfor (i = 0; i < n; i++)\r\n\t\tscanf(\"%lld\", &p[i]);\r\n\tlong long int pp = 998244353;\r\n\tlong long int s[200005];\r\n\ts[n] = 1;\r\n\tfor (i = n - 1; i >= 0; i--)\r\n\t\ts[i] = s[i + 1] * 100 * modpow(p[i], pp - 2, pp) % pp;\r\n\tlong long int ans = 0;\r\n\tfor (i = 0; i < n; i++)\r\n\t\tans = (ans + 100 * modpow(p[i], pp - 2, pp) * s[i + 1]) % pp;\r\n\tprintf(\"%lld\\n\", ans);\r\n\treturn 0;\r\n}",
+        "verdict": "WRONG_ANSWER",
+        "testCaseName:": "WRONG_ANSWER66356208",
+        "CodeForceProblemId": "E",
+        "targetCaseNums": [
+            3
+        ]
+    },
+    {
+        "language": "c.gcc11",
+        "sourceCode": "#include <stdio.h>\r\n#define ll long long int\r\n#define m 998244353\r\n\r\n// Function to return the GCD of given numbers\r\nint gcd(int a, int b)\r\n{\r\n    if (a == 0)\r\n        return b;\r\n    return gcd(b % a, a);\r\n}\r\n\r\n// Recursive function to return (x ^ n) % m\r\nll modexp(ll x, ll n)\r\n{\r\n    if (n == 0)\r\n    {\r\n        return 1;\r\n    }\r\n    else if (n % 2 == 0)\r\n    {\r\n        return modexp((x * x) % m, n / 2);\r\n    }\r\n    else\r\n    {\r\n        return (x * modexp((x * x) % m, (n - 1) / 2) % m);\r\n    }\r\n}\r\n\r\n// Function to return the fraction modulo mod\r\nll getFractionModulo(ll a, ll b)\r\n{\r\n    ll c = gcd(a, b);\r\n\r\n    a = a / c;\r\n    b = b / c;\r\n\r\n    // (b ^ m-2) % m\r\n    ll d = modexp(b, m - 2);\r\n\r\n    // Final answer\r\n    ll ans = ((a % m) * (d % m)) % m;\r\n\r\n    return ans;\r\n}\r\nint main()\r\n{\r\n    int t;\r\n    scanf(\"%d\", &t);\r\n    int a[200000 + 10];\r\n    for (int i = 0; i < t; i++)\r\n    {\r\n        scanf(\"%d\", &a[i]);\r\n    }\r\n    int ans = getFractionModulo(100, a[0]);\r\n    for (int i = 1; i < t; i++)\r\n    {\r\n        int temp = ans;\r\n        ans = getFractionModulo(100* (temp + 1), a[i]);\r\n        // ans = ans * (temp + 1);\r\n        // ans=getFractionModulo(ans,1);\r\n    }\r\n    printf(\"%d\", ans);\r\n}",
+        "verdict": "WRONG_ANSWER",
+        "testCaseName:": "WRONG_ANSWER66352370",
+        "CodeForceProblemId": "E",
+        "targetCaseNums": [
+            3
+        ]
+    },
+    {
+        "language": "c.gcc11",
+        "sourceCode": "#include <stdio.h>\r\n#define ll long long int\r\n#define m 998244353\r\n\r\n// Function to return the GCD of given numbers\r\nint gcd(int a, int b)\r\n{\r\n    if (a == 0)\r\n        return b;\r\n    return gcd(b % a, a);\r\n}\r\n\r\n// Recursive function to return (x ^ n) % m\r\nll modexp(ll x, ll n)\r\n{\r\n    if (n == 0)\r\n    {\r\n        return 1;\r\n    }\r\n    else if (n % 2 == 0)\r\n    {\r\n        return modexp((x * x) % m, n / 2);\r\n    }\r\n    else\r\n    {\r\n        return (x * modexp((x * x) % m, (n - 1) / 2) % m);\r\n    }\r\n}\r\n\r\n// Function to return the fraction modulo mod\r\nll getFractionModulo(ll a, ll b)\r\n{\r\n    ll c = gcd(a, b);\r\n\r\n    a = a / c;\r\n    b = b / c;\r\n\r\n    // (b ^ m-2) % m\r\n    ll d = modexp(b, m - 2);\r\n\r\n    // Final answer\r\n    ll ans = ((a % m) * (d % m)) % m;\r\n\r\n    return ans;\r\n}\r\nint main()\r\n{\r\n    int t;\r\n    scanf(\"%d\", &t);\r\n    int a[200000 + 10];\r\n    for (int i = 0; i < t; i++)\r\n    {\r\n        scanf(\"%d\", &a[i]);\r\n    }\r\n    int ans = getFractionModulo(100, a[0]);\r\n    for (int i = 1; i < t; i++)\r\n    {\r\n        int temp = ans;\r\n        ans = getFractionModulo(100, a[i]);\r\n        ans = ans * (temp + 1);\r\n        ans=getFractionModulo(ans,1);\r\n    }\r\n    printf(\"%d\", ans);\r\n}",
+        "verdict": "WRONG_ANSWER",
+        "testCaseName:": "WRONG_ANSWER66351841",
+        "CodeForceProblemId": "E",
+        "targetCaseNums": [
+            3
+        ]
+    },
+    {
+        "language": "c.gcc11",
+        "sourceCode": "#include <stdio.h>\r\n#define ll long long int\r\n#define m 998244353\r\n\r\n// Function to return the GCD of given numbers\r\nint gcd(int a, int b)\r\n{\r\n    if (a == 0)\r\n        return b;\r\n    return gcd(b % a, a);\r\n}\r\n\r\n// Recursive function to return (x ^ n) % m\r\nll modexp(ll x, ll n)\r\n{\r\n    if (n == 0)\r\n    {\r\n        return 1;\r\n    }\r\n    else if (n % 2 == 0)\r\n    {\r\n        return modexp((x * x) % m, n / 2);\r\n    }\r\n    else\r\n    {\r\n        return (x * modexp((x * x) % m, (n - 1) / 2) % m);\r\n    }\r\n}\r\n\r\n// Function to return the fraction modulo mod\r\nll getFractionModulo(ll a, ll b)\r\n{\r\n    ll c = gcd(a, b);\r\n\r\n    a = a / c;\r\n    b = b / c;\r\n\r\n    // (b ^ m-2) % m\r\n    ll d = modexp(b, m - 2);\r\n\r\n    // Final answer\r\n    ll ans = ((a % m) * (d % m)) % m;\r\n\r\n    return ans;\r\n}\r\nint main()\r\n{\r\n    int t;\r\n    scanf(\"%d\", &t);\r\n    int a[200000 + 10];\r\n    for (int i = 0; i < t; i++)\r\n    {\r\n        scanf(\"%d\", &a[i]);\r\n    }\r\n    int ans = getFractionModulo(100, a[0]);\r\n    for (int i = 1; i < t; i++)\r\n    {\r\n        int temp = ans;\r\n        ans = getFractionModulo(100, a[i]);\r\n        ans = ans * (temp + 1);\r\n    }\r\n    printf(\"%d\", ans);\r\n}",
+        "verdict": "WRONG_ANSWER",
+        "testCaseName:": "WRONG_ANSWER66351234",
+        "CodeForceProblemId": "E",
+        "targetCaseNums": [
+            3
+        ]
+    }
+]

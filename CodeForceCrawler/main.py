@@ -1,6 +1,8 @@
 import requests
 import bs4
 import json
+import random
+import os
 def exportHtml(name,content):
     with open(name,"w") as fp:
         fp.write(content)
@@ -126,8 +128,8 @@ def getSubmittion(CONTEST_ID,SUBMISSION_ID,getTestCase):
             if str(data["input#"+str(i)]).find("...")!=-1 or str(data["answer#"+str(1)]).find("...")!=-1:
                 continue
             testCases.append({
-                "input":data["input#"+str(i)],
-                "output":data["answer#"+str(1)],
+                "input":str(data["input#"+str(i)]).replace("\r",""),
+                "output":str(data["answer#"+str(1)]).replace("\r",""),
                 "verdict":data["verdict#"+str(i)],
                 "num":i
             })
@@ -198,10 +200,10 @@ def getProcessedCode(CONTEST_ID , verdictName , programTypeForInvoker , framePro
     for id in targetSubIds:
         sourceCode , compilationError , testCases = getSubmittion(CONTEST_ID , id ,False)
         
-        if compilationError:
+        if compilationError == True:
             codes.append({
                 "language":programTypeForInvoker,
-                "sourceCode":sourceCode,
+                "sourceCode":str(sourceCode).replace("\r" , ""),
                 "verdict":verdictName,
                 "testCaseName:":str(verdictName)+str(id),
                 "CodeForceProblemId":frameProblemIndex,
@@ -210,37 +212,89 @@ def getProcessedCode(CONTEST_ID , verdictName , programTypeForInvoker , framePro
             continue
 
         elif verdictName != "OK":
-            testCases = [ case for case in testCases if not case["verdict"] == verdictName ]
+            _testCases =[]
+            for case in testCases:
+                if case["verdict"] == verdictName:
+                    _testCases.append(case)
+            
+            testCases = _testCases
             if len(testCases) == 0 :
                 continue
+        
+        #for debugs
+        with open(f"Debug_submission_id{id}.json" , "w") as fp:
+            fp.write(json.dumps({
+                "testCases":testCases,
+                "pdbfpi":problemDB[frameProblemIndex]
+            }))
 
         targetCaseNums=[]
         for case in testCases:
             findcase=False
             for  probcase in problemDB[frameProblemIndex]:
-                if probcase["id"] == case["id"]:
+                if probcase["num"] == case["num"]:
                     findcase=True
                     break
             
             if findcase:
-                targetCaseNums.append(case[id])
+                targetCaseNums.append(case["num"])
         
         if len(targetCaseNums) == 0:
             continue
         
         codes.append({
             "language":programTypeForInvoker,
-            "sourceCode":sourceCode,
+            "sourceCode":str(sourceCode).replace("\r",""),
             "verdict":verdictName,
             "testCaseName:":str(verdictName)+str(id),
             "CodeForceProblemId":frameProblemIndex,
             "targetCaseNums":targetCaseNums
         })
     return codes
+def create_file_suffix_by_lang(lang):
+    if lang == "c.gcc11":
+        return ".c"
+    elif lang == "python.3":
+        return ".py"
+    elif lang == "cpp.g++11":
+        return ".cpp"
+    return ""
+testCaseDict={}
+def build_test_case_dict(problemDB):
+    for i in list(problemDB.keys()):
+        testCaseDict.update({i:{}})
+        for u in problemDB[i]:
+            testCaseDict[i].update({problemDB[i]["num"]:{
+                "input":u["input"] , 
+                "output":u["output"] ,
+                "verdict":u["verdict"]
+            }})
 
-
-    
-
+def exportSubmission(submission , metafiles):
+    os.mkdir(submission["testCaseName"])
+    os.chdir(submission["testCaseName"])
+    # create src
+    os.mkdir("src")
+    os.chdir("src")
+    with open("main"+create_file_suffix_by_lang(submission["language"]),"w") as fp:
+        fp.write(submission["sourceCode"])
+    os.chdir("..")
+    # create testcase
+    os.mkdir("testcase")
+    os.chdir("testcase")
+    with open("meta.json" , "w") as fp:
+        fp.write(json.dumps(metafiles[submission["CodeForceProblemId"]],indent=4, separators=(',', ': ')))
+    counter=0
+    for i in submission["targetCaseNums"]:
+        os.mkdir(str(counter))
+        os.chdir(str(counter))
+        with open("in" , "w") as fp:
+            fp.write(testCaseDict[submission["CodeForceProblemId"]][i]["input"])
+        with open("out" , "w") as fp:
+            fp.write(testCaseDict[submission["CodeForceProblemId"]][i]["output"])
+        counter+=1
+        os.chdir("..")
+    os.chdir("..")
 
 
 if __name__ == "__main__":
@@ -248,5 +302,12 @@ if __name__ == "__main__":
     #getSubmittion(132,61898597)
     #print(buildProblemList(1169))
     problemDB = buildProblemList(1265)
-    getProcessedCode(1265 , "OK" ,"c.gcc11" , "E" , problemDB)
-    pass
+    with open("probDB.json" , "w") as fp:
+        fp.write(json.dumps(problemDB))
+    
+    submits = getProcessedCode(1265 , "WRONG_ANSWER" ,"c.gcc11" , "E" , problemDB)
+    with open("submits.json" , "w") as fp:
+        fp.write(json.dumps(submits))
+    
+    build_test_case_dict(problemDB)
+    
