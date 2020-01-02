@@ -1,0 +1,9 @@
+{
+    "languageId":0,
+    "problemId":"C_abFileRead",
+    "expectedResult":[
+        {
+            "status": 5
+        }
+    ]
+}
