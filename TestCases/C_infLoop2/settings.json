@@ -1,12 +1,9 @@
 {
     "languageId":0,
-    "problemId":"C_infLoop",
+    "problemId":"C_infLoop2",
     "expectedResult":[
         {
             "status": 3
-        },
-        {
-            "status": 7
         }
     ]
 }

@@ -1,0 +1,7 @@
+{
+    "cases": [{
+        "caseScore": 100,
+        "memoryLimit": 512000,
+        "timeLimit": 1000
+    }]
+}
