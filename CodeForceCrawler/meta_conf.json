@@ -1,0 +1,32 @@
+{
+    "A":{
+        "caseScore":100,
+        "memoryLimit": 256000,
+        "timeLimit": 1000
+    },
+    "B":{
+        "caseScore":100,
+        "memoryLimit": 256000,
+        "timeLimit": 1000
+    },
+    "C":{
+        "caseScore":100,
+        "memoryLimit": 256000,
+        "timeLimit": 2000
+    },
+    "D":{
+        "caseScore":100,
+        "memoryLimit": 256000,
+        "timeLimit": 1000
+    },
+    "E":{
+        "caseScore":100,
+        "memoryLimit": 256000,
+        "timeLimit": 2000
+    },
+    "F":{
+        "caseScore":100,
+        "memoryLimit": 256000,
+        "timeLimit": 2000
+    }
+}

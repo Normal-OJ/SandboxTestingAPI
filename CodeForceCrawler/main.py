@@ -17,12 +17,12 @@ verdictNameList=[
     "COMPILATION_ERROR"
 ]
 verdict2status={
-    "OK":"AC",
-    "WRONG_ANSWER":"WA",
-    "RUNTIME_ERROR":"RE",
-    "TIME_LIMIT_EXCEEDED":"TLE",
-    "MEMORY_LIMIT_EXCEEDED":"MLE",
-    "COMPILATION_ERROR":"CE"
+    "OK":0,
+    "WRONG_ANSWER":1,
+    "RUNTIME_ERROR":5,
+    "TIME_LIMIT_EXCEEDED":3,
+    "MEMORY_LIMIT_EXCEEDED":4,
+    "COMPILATION_ERROR":2
 }
 programTypeForInvokerList=[
     "anyProgramTypeForInvoker"
@@ -31,9 +31,9 @@ programTypeForInvokerList=[
     "python.3"
 ]
 programTypeForInvoker2programType={
-    "c.gcc11":"C",
-    "cpp.g++11":"C++",
-    "python.3":"Python3"
+    "c.gcc11":0,
+    "cpp.g++11":1,
+    "python.3":2
 }
 def findSpecifySubmissionIds(CONTEST_ID,verdictName,programTypeForInvoker,problemIndex)->list:
     """
@@ -205,7 +205,7 @@ def getProcessedCode(CONTEST_ID , verdictName , programTypeForInvoker , framePro
                 "language":programTypeForInvoker,
                 "sourceCode":str(sourceCode).replace("\r" , ""),
                 "verdict":verdictName,
-                "testCaseName:":str(verdictName)+str(id),
+                "testCaseName":str(verdictName)+str(id),
                 "CodeForceProblemId":frameProblemIndex,
                 "targetCaseNums":[]
             })
@@ -220,13 +220,6 @@ def getProcessedCode(CONTEST_ID , verdictName , programTypeForInvoker , framePro
             testCases = _testCases
             if len(testCases) == 0 :
                 continue
-        
-        #for debugs
-        with open(f"Debug_submission_id{id}.json" , "w") as fp:
-            fp.write(json.dumps({
-                "testCases":testCases,
-                "pdbfpi":problemDB[frameProblemIndex]
-            }))
 
         targetCaseNums=[]
         for case in testCases:
@@ -246,7 +239,7 @@ def getProcessedCode(CONTEST_ID , verdictName , programTypeForInvoker , framePro
             "language":programTypeForInvoker,
             "sourceCode":str(sourceCode).replace("\r",""),
             "verdict":verdictName,
-            "testCaseName:":str(verdictName)+str(id),
+            "testCaseName":str(verdictName)+str(id),
             "CodeForceProblemId":frameProblemIndex,
             "targetCaseNums":targetCaseNums
         })
@@ -263,16 +256,26 @@ testCaseDict={}
 def build_test_case_dict(problemDB):
     for i in list(problemDB.keys()):
         testCaseDict.update({i:{}})
-        for u in problemDB[i]:
-            testCaseDict[i].update({problemDB[i]["num"]:{
-                "input":u["input"] , 
-                "output":u["output"] ,
-                "verdict":u["verdict"]
+        for u in range(len(problemDB[i])):
+            testCaseDict[i].update({problemDB[i][u]["num"]:{
+                "input":problemDB[i][u]["input"] , 
+                "output":problemDB[i][u]["output"] ,
+                "verdict":problemDB[i][u]["verdict"]
             }})
 
 def exportSubmission(submission , metafiles):
+    submission = dict(submission)
     os.mkdir(submission["testCaseName"])
     os.chdir(submission["testCaseName"])
+    
+    with open("settings.json" , "w") as fp:
+        fp.write(json.dumps({
+            "languageId":programTypeForInvoker2programType[submission["language"]],
+            "problemId":submission["testCaseName"],
+            "expectedResult":{
+                "status": verdict2status[submission["verdict"]]
+            }
+        }))
     # create src
     os.mkdir("src")
     os.chdir("src")
@@ -283,7 +286,12 @@ def exportSubmission(submission , metafiles):
     os.mkdir("testcase")
     os.chdir("testcase")
     with open("meta.json" , "w") as fp:
-        fp.write(json.dumps(metafiles[submission["CodeForceProblemId"]],indent=4, separators=(',', ': ')))
+        content = {"cases":[]}
+        exp = metafiles[submission["CodeForceProblemId"]]
+        for _ in range(len(submission["targetCaseNums"])):
+            content["cases"].append(exp)
+        fp.write(json.dumps(content,indent=4))
+
     counter=0
     for i in submission["targetCaseNums"]:
         os.mkdir(str(counter))
@@ -294,6 +302,7 @@ def exportSubmission(submission , metafiles):
             fp.write(testCaseDict[submission["CodeForceProblemId"]][i]["output"])
         counter+=1
         os.chdir("..")
+    os.chdir("..")
     os.chdir("..")
 
 
@@ -309,5 +318,18 @@ if __name__ == "__main__":
     with open("submits.json" , "w") as fp:
         fp.write(json.dumps(submits))
     
-    build_test_case_dict(problemDB)
+    metafile = {}
+    with open("meta_conf.json","r") as fp:
+        js_f=""
+        for i in fp.readlines():
+            js_f += i
+
+        metafile = json.loads(js_f)
     
+    build_test_case_dict(problemDB)
+    # export submissions
+    os.mkdir("TestCases")
+    os.chdir("TestCases")
+    for sub in submits:
+        exportSubmission(sub,metafile)
+    os.chdir("..")
