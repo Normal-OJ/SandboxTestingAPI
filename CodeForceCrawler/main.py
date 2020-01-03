@@ -3,6 +3,7 @@ import bs4
 import json
 import random
 import os
+import time
 def exportHtml(name,content):
     with open(name,"w") as fp:
         fp.write(content)
@@ -117,7 +118,9 @@ def getSubmittion(CONTEST_ID,SUBMISSION_ID,getTestCase):
         print("Receive Return Code {0}".format(str(res.status_code)))
         print("returned body:")
         print(res.text)
-        return None
+        print("wait for 3 seccond and retry again")
+        time.sleep(3)
+        return getSubmittion(CONTEST_ID,SUBMISSION_ID,getTestCase)
     ses.close()
     data=dict(json.loads(res.text))
     print("sucess~~")
