@@ -115,6 +115,8 @@ def getSubmittion(CONTEST_ID,SUBMISSION_ID,getTestCase):
     if res.status_code != 200:
         print("Error Occur!!")
         print("Receive Return Code {0}".format(str(res.status_code)))
+        print("returned body:")
+        print(res.text)
         return None
     ses.close()
     data=dict(json.loads(res.text))
