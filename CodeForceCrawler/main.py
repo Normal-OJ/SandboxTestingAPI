@@ -102,6 +102,7 @@ def getSubmittion(CONTEST_ID,SUBMISSION_ID,getTestCase):
         otherwise, return the judge status of a problem
 
     """
+    print(f"try to accuire submission {SUBMISSION_ID}")
     ses=requests.session()
     res=ses.get("https://codeforces.com/contest/{0}/submission/{1}".format(str(CONTEST_ID),str(SUBMISSION_ID)))
     soup=bs4.BeautifulSoup(res.text,"html.parser")
@@ -117,7 +118,7 @@ def getSubmittion(CONTEST_ID,SUBMISSION_ID,getTestCase):
         return None
     ses.close()
     data=dict(json.loads(res.text))
-    
+    print("sucess~~")
     sourceCode=data["source"]
     testCaseNum=int(data["testCount"])
     testCases=[]
@@ -154,6 +155,7 @@ def buildProblemList(CONTEST_ID):
 
         problemDataSet: a json like object dictionary with problem question set
     """
+    print("building problem list...")
     ses=requests.session()
     res=ses.get("https://codeforces.com/contest/{0}/status".format(str(CONTEST_ID)))
     soup=bs4.BeautifulSoup(res.text,"html.parser").find("select",{"class":"setting-value"} , "html.parser")
@@ -171,7 +173,7 @@ def buildProblemList(CONTEST_ID):
         _ , _ , testCases = getSubmittion(CONTEST_ID , submitIdList[0],True)
         if len(testCases)!=0:
             problemDataSet.update({i:testCases})
-    
+    print("done !!!")
     return problemDataSet
 
 def getProcessedCode(CONTEST_ID , verdictName , programTypeForInvoker , frameProblemIndex , problemDB):
@@ -317,6 +319,7 @@ if __name__ == "__main__":
     for ver in verdictNameList[1:]:
         for p_type in programTypeForInvokerList[1:]:
             for problemId in list(problemDB.keys()):
+                print(f"try to build {ver} case written in {p_type} in problem {problemId}")
                 submits = getProcessedCode(1265 , ver ,p_type , problemId , problemDB)
                 metafile = {}
                 with open("meta_conf.json","r") as fp:
@@ -330,4 +333,5 @@ if __name__ == "__main__":
                 os.chdir("TestCases")
                 for sub in submits:
                     exportSubmission(sub,metafile)
+                print(f"finish building {ver} case written in {p_type} in problem {problemId}")
                 os.chdir("..")
