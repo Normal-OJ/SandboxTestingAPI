@@ -311,25 +311,23 @@ if __name__ == "__main__":
     #getSubmittion(132,61898597)
     #print(buildProblemList(1169))
     problemDB = buildProblemList(1265)
-    with open("probDB.json" , "w") as fp:
-        fp.write(json.dumps(problemDB))
-    
-    submits = getProcessedCode(1265 , "WRONG_ANSWER" ,"c.gcc11" , "E" , problemDB)
-    with open("submits.json" , "w") as fp:
-        fp.write(json.dumps(submits))
-    
-    metafile = {}
-    with open("meta_conf.json","r") as fp:
-        js_f=""
-        for i in fp.readlines():
-            js_f += i
-
-        metafile = json.loads(js_f)
-    
     build_test_case_dict(problemDB)
-    # export submissions
     os.mkdir("TestCases")
-    os.chdir("TestCases")
-    for sub in submits:
-        exportSubmission(sub,metafile)
-    os.chdir("..")
+
+    for ver in verdictNameList[1:]:
+        for p_type in programTypeForInvokerList[1:]:
+            for problemId in list(problemDB.keys()):
+                submits = getProcessedCode(1265 , ver ,p_type , problemId , problemDB)
+                metafile = {}
+                with open("meta_conf.json","r") as fp:
+                    js_f=""
+                    for i in fp.readlines():
+                        js_f += i
+
+                    metafile = json.loads(js_f)
+                
+                # export submissions
+                os.chdir("TestCases")
+                for sub in submits:
+                    exportSubmission(sub,metafile)
+                os.chdir("..")
