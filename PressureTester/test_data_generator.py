@@ -27,4 +27,4 @@ def generate_case(types , nums , name):
         os.chdir("..")
 
 if __name__ == "__main__":
-    generate_case("easy" , 25 ,"Yee")
+    generate_case("easy" , 100 ,"Yee")
