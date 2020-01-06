@@ -1,0 +1,722 @@
+{
+    "A": [
+        {
+            "input": "3\na???cb\na??bbc\na?b?c\n",
+            "output": "ababcb\n-1\nacbac\n",
+            "verdict": "OK",
+            "num": 1
+        },
+        {
+            "input": "23\n?\n??\n???\n????\n????\n?a\n?b\n?c\na?\nb?\nc?\n?a?\n?b?\n?c?\na?a\na?b\na?c\nb?a\nb?b\nb?c\nc?a\nc?b\nc?c\n",
+            "output": "a\nab\naba\nabab\nabab\nba\nab\nac\nab\nba\nca\nbab\naba\naca\naba\nacb\nabc\nbca\nbab\nbac\ncba\ncab\ncac\n",
+            "verdict": "OK",
+            "num": 7
+        }
+    ],
+    "B": [
+        {
+            "input": "3\n6\n4 5 1 3 2 6\n5\n5 3 1 2 4\n4\n1 4 3 2\n",
+            "output": "101011\n11111\n1001\n",
+            "verdict": "OK",
+            "num": 1
+        }
+    ],
+    "C": [
+        {
+            "input": "5\n12\n5 4 4 3 2 2 1 1 1 1 1 1\n4\n4 3 2 1\n1\n1000000\n20\n20 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5 4 3 2 1\n32\n64 64 63 58 58 58 58 58 37 37 37 37 34 34 28 28 28 28 28 28 24 24 19 17 17 17 17 16 16 16 16 11\n",
+            "output": "1 2 3\n0 0 0\n0 0 0\n1 2 7\n2 6 6\n",
+            "verdict": "OK",
+            "num": 1
+        }
+    ],
+    "D": [
+        {
+            "input": "2 2 2 1\n",
+            "output": "YES\n0 1 0 1 2 3 2\n",
+            "verdict": "OK",
+            "num": 1
+        },
+        {
+            "input": "1 2 3 4\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 2
+        },
+        {
+            "input": "2 2 2 3\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 3
+        },
+        {
+            "input": "3436 3436 46563 46564\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 4
+        },
+        {
+            "input": "15039 15038 34961 34961\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 5
+        },
+        {
+            "input": "26 25 24 26\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 7
+        },
+        {
+            "input": "67 66 33 34\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 8
+        },
+        {
+            "input": "145 145 105 107\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 11
+        },
+        {
+            "input": "211 209 91 91\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 12
+        },
+        {
+            "input": "119 146 31 2\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 13
+        },
+        {
+            "input": "197 280 249 164\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 14
+        },
+        {
+            "input": "1 0 0 1\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 15
+        },
+        {
+            "input": "0 0 1 2\n",
+            "output": "YES\n3 2 3\n",
+            "verdict": "OK",
+            "num": 16
+        },
+        {
+            "input": "1 0 0 0\n",
+            "output": "YES\n0\n",
+            "verdict": "OK",
+            "num": 17
+        },
+        {
+            "input": "104 182 94 18\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 18
+        },
+        {
+            "input": "119 333 231 19\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 19
+        },
+        {
+            "input": "0 1 1 1\n",
+            "output": "YES\n1 2 3\n",
+            "verdict": "OK",
+            "num": 20
+        },
+        {
+            "input": "1 1 0 0\n",
+            "output": "YES\n0 1\n",
+            "verdict": "OK",
+            "num": 21
+        },
+        {
+            "input": "0 1 1 0\n",
+            "output": "YES\n1 2\n",
+            "verdict": "OK",
+            "num": 22
+        },
+        {
+            "input": "0 0 1 1\n",
+            "output": "YES\n2 3\n",
+            "verdict": "OK",
+            "num": 23
+        },
+        {
+            "input": "1 1 1 0\n",
+            "output": "YES\n0 1 2\n",
+            "verdict": "OK",
+            "num": 24
+        },
+        {
+            "input": "1 0 1 1\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 25
+        },
+        {
+            "input": "1 1 0 1\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 26
+        },
+        {
+            "input": "1 1 1 1\n",
+            "output": "YES\n0 1 2 3\n",
+            "verdict": "OK",
+            "num": 27
+        },
+        {
+            "input": "2 0 0 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 28
+        },
+        {
+            "input": "0 1 0 0\n",
+            "output": "YES\n1\n",
+            "verdict": "OK",
+            "num": 29
+        },
+        {
+            "input": "0 2 0 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 30
+        },
+        {
+            "input": "0 0 1 0\n",
+            "output": "YES\n2\n",
+            "verdict": "OK",
+            "num": 31
+        },
+        {
+            "input": "0 0 2 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 32
+        },
+        {
+            "input": "0 0 0 1\n",
+            "output": "YES\n3\n",
+            "verdict": "OK",
+            "num": 33
+        },
+        {
+            "input": "0 0 0 2\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 34
+        },
+        {
+            "input": "100000 0 0 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 35
+        },
+        {
+            "input": "0 100000 0 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 36
+        },
+        {
+            "input": "0 0 100000 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 37
+        },
+        {
+            "input": "0 0 0 100000\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 38
+        },
+        {
+            "input": "0 1 0 1\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 40
+        },
+        {
+            "input": "0 2 0 1\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 41
+        },
+        {
+            "input": "1 0 1 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 42
+        },
+        {
+            "input": "2 0 1 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 43
+        },
+        {
+            "input": "20000 39998 20000 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 44
+        },
+        {
+            "input": "20000 40002 20000 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 47
+        },
+        {
+            "input": "0 20000 39998 20000\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 48
+        },
+        {
+            "input": "0 20000 40002 20000\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 52
+        },
+        {
+            "input": "50 55 5 1\n",
+            "output": "YES\n1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 2 1 2 1 2 1 2 1 2 3\n",
+            "verdict": "OK",
+            "num": 79
+        },
+        {
+            "input": "1 72 110 39\n",
+            "output": "YES\n0 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 1 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 3\n",
+            "verdict": "OK",
+            "num": 80
+        },
+        {
+            "input": "1032 1032 1968 1969\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 99
+        },
+        {
+            "input": "1789 1788 1712 1712\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 100
+        },
+        {
+            "input": "18317 8251 31682 41748\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 101
+        },
+        {
+            "input": "8116 8114 41884 41885\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 102
+        },
+        {
+            "input": "35775 35774 14224 14225\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 103
+        },
+        {
+            "input": "44884 44883 5115 5115\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 104
+        },
+        {
+            "input": "21548 21547 28451 28452\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 105
+        },
+        {
+            "input": "29058 27056 20941 22944\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 106
+        },
+        {
+            "input": "44884 46652 5115 3345\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 107
+        },
+        {
+            "input": "26539 36816 23458 13183\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 108
+        },
+        {
+            "input": "35775 35775 14224 14226\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 109
+        },
+        {
+            "input": "40470 40468 9531 9531\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 110
+        },
+        {
+            "input": "21548 40483 28451 9518\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 111
+        },
+        {
+            "input": "20199 23486 29802 26513\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 112
+        },
+        {
+            "input": "2 1 0 0\n",
+            "output": "YES\n0 1 0\n",
+            "verdict": "OK",
+            "num": 113
+        },
+        {
+            "input": "0 1 2 0\n",
+            "output": "YES\n2 1 2\n",
+            "verdict": "OK",
+            "num": 114
+        },
+        {
+            "input": "0 2 1 0\n",
+            "output": "YES\n1 2 1\n",
+            "verdict": "OK",
+            "num": 115
+        },
+        {
+            "input": "1 2 0 0\n",
+            "output": "YES\n1 0 1\n",
+            "verdict": "OK",
+            "num": 116
+        },
+        {
+            "input": "0 0 2 1\n",
+            "output": "YES\n2 3 2\n",
+            "verdict": "OK",
+            "num": 117
+        },
+        {
+            "input": "1 2 1 0\n",
+            "output": "YES\n0 1 2 1\n",
+            "verdict": "OK",
+            "num": 118
+        },
+        {
+            "input": "0 1 2 1\n",
+            "output": "YES\n1 2 3 2\n",
+            "verdict": "OK",
+            "num": 119
+        },
+        {
+            "input": "40000 40002 0 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 121
+        },
+        {
+            "input": "0 40000 40002 0\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 127
+        },
+        {
+            "input": "0 0 40000 40002\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 140
+        },
+        {
+            "input": "0 2 2 0\n",
+            "output": "YES\n1 2 1 2\n",
+            "verdict": "OK",
+            "num": 146
+        },
+        {
+            "input": "1 1 1 3\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 147
+        },
+        {
+            "input": "1 3 1 0\n",
+            "output": "YES\n1 0 1 2 1\n",
+            "verdict": "OK",
+            "num": 148
+        },
+        {
+            "input": "0 0 2 1\n",
+            "output": "YES\n2 3 2\n",
+            "verdict": "OK",
+            "num": 149
+        },
+        {
+            "input": "1 0 0 2\n",
+            "output": "NO\n",
+            "verdict": "OK",
+            "num": 150
+        }
+    ],
+    "E": [
+        {
+            "input": "1\n50\n",
+            "output": "2\n",
+            "verdict": "OK",
+            "num": 1
+        },
+        {
+            "input": "3\n10 20 50\n",
+            "output": "112\n",
+            "verdict": "OK",
+            "num": 2
+        },
+        {
+            "input": "2\n18 73\n",
+            "output": "112435446\n",
+            "verdict": "OK",
+            "num": 3
+        },
+        {
+            "input": "3\n74 11 63\n",
+            "output": "221287072\n",
+            "verdict": "OK",
+            "num": 24
+        },
+        {
+            "input": "4\n42 20 51 84\n",
+            "output": "970992516\n",
+            "verdict": "OK",
+            "num": 25
+        },
+        {
+            "input": "5\n30 48 49 17 25\n",
+            "output": "626083602\n",
+            "verdict": "OK",
+            "num": 26
+        },
+        {
+            "input": "100\n60 79 48 35 18 24 87 1 44 65 60 78 11 43 71 79 90 6 94 49 22 91 58 93 55 21 22 31 7 15 17 65 76 9 100 89 50 96 14 38 27 87 29 93 54 12 99 35 27 51 36 44 6 26 91 1 53 8 49 63 18 4 31 55 95 15 77 1 16 98 75 26 26 43 2 11 18 70 3 65 11 74 64 69 26 54 9 51 25 82 98 12 90 75 19 23 78 93 6 7\n",
+            "output": "211104883\n",
+            "verdict": "OK",
+            "num": 27
+        }
+    ],
+    "F": [
+        {
+            "input": "??\n",
+            "output": "1\n",
+            "verdict": "OK",
+            "num": 1
+        },
+        {
+            "input": "(?(?))\n",
+            "output": "9\n",
+            "verdict": "OK",
+            "num": 2
+        },
+        {
+            "input": "?\n",
+            "output": "0\n",
+            "verdict": "OK",
+            "num": 3
+        },
+        {
+            "input": "(\n",
+            "output": "0\n",
+            "verdict": "OK",
+            "num": 4
+        },
+        {
+            "input": ")\n",
+            "output": "0\n",
+            "verdict": "OK",
+            "num": 5
+        },
+        {
+            "input": "((\n",
+            "output": "0\n",
+            "verdict": "OK",
+            "num": 11
+        },
+        {
+            "input": "))\n",
+            "output": "0\n",
+            "verdict": "OK",
+            "num": 12
+        },
+        {
+            "input": "???\n",
+            "output": "4\n",
+            "verdict": "OK",
+            "num": 13
+        },
+        {
+            "input": "(((\n",
+            "output": "0\n",
+            "verdict": "OK",
+            "num": 14
+        },
+        {
+            "input": ")))\n",
+            "output": "0\n",
+            "verdict": "OK",
+            "num": 15
+        },
+        {
+            "input": "????\n",
+            "output": "12\n",
+            "verdict": "OK",
+            "num": 16
+        },
+        {
+            "input": "((((\n",
+            "output": "0\n",
+            "verdict": "OK",
+            "num": 17
+        },
+        {
+            "input": "))))\n",
+            "output": "0\n",
+            "verdict": "OK",
+            "num": 18
+        },
+        {
+            "input": "(?(??)))((\n",
+            "output": "24\n",
+            "verdict": "OK",
+            "num": 29
+        },
+        {
+            "input": "(?(??)))(()?(???)(?((?(?()))(())?))?(?)))?)?)))?)?()(\n",
+            "output": "2123024\n",
+            "verdict": "OK",
+            "num": 30
+        },
+        {
+            "input": "(?(??)))(()?(???)(?((?(?()))(())?))?(?)))?)?)))?)?()())??)?()?)??))?(()??)?()))()(???)())?(??)))((?())()(?\n",
+            "output": "359232022\n",
+            "verdict": "OK",
+            "num": 31
+        },
+        {
+            "input": "??????????\n",
+            "output": "2304\n",
+            "verdict": "OK",
+            "num": 34
+        },
+        {
+            "input": "?????????????????????????????????????????????????????\n",
+            "output": "872556218\n",
+            "verdict": "OK",
+            "num": 35
+        },
+        {
+            "input": "??????????????????????????????????????????????????????????????????????????????????????????????????????????\n",
+            "output": "206662035\n",
+            "verdict": "OK",
+            "num": 36
+        },
+        {
+            "input": "(?(??(?(((\n",
+            "output": "24\n",
+            "verdict": "OK",
+            "num": 39
+        },
+        {
+            "input": "(?(??(?(((??(???((?((?(?((((((?(????(??(?????(????(((\n",
+            "output": "771290347\n",
+            "verdict": "OK",
+            "num": 40
+        },
+        {
+            "input": "(?(??(?(((??(???((?((?(?((((((?(????(??(?????(????((((???(?(??(??(??(((????(?(((((????(???(??(??((?(?((?(?\n",
+            "output": "180818340\n",
+            "verdict": "OK",
+            "num": 41
+        },
+        {
+            "input": ")?)??)?)))\n",
+            "output": "31\n",
+            "verdict": "OK",
+            "num": 44
+        },
+        {
+            "input": ")?)??)?)))??)???))?))?)?))))))?)????)??)?????)????)))\n",
+            "output": "469179939\n",
+            "verdict": "OK",
+            "num": 45
+        },
+        {
+            "input": ")?)??)?)))??)???))?))?)?))))))?)????)??)?????)????))))???)?)??)??)??)))????)?)))))????)???)??)??))?)?))?)?\n",
+            "output": "153019280\n",
+            "verdict": "OK",
+            "num": 46
+        },
+        {
+            "input": ")?)??)?)((\n",
+            "output": "24\n",
+            "verdict": "OK",
+            "num": 49
+        },
+        {
+            "input": ")?)??)?)((??(???)(?((?(?)???()??????(?????????????(?)\n",
+            "output": "543515623\n",
+            "verdict": "OK",
+            "num": 50
+        },
+        {
+            "input": "(?\n",
+            "output": "1\n",
+            "verdict": "OK",
+            "num": 51
+        },
+        {
+            "input": "?)\n",
+            "output": "1\n",
+            "verdict": "OK",
+            "num": 52
+        },
+        {
+            "input": "(?)\n",
+            "output": "2\n",
+            "verdict": "OK",
+            "num": 53
+        },
+        {
+            "input": "(??\n",
+            "output": "3\n",
+            "verdict": "OK",
+            "num": 54
+        },
+        {
+            "input": "???)\n",
+            "output": "8\n",
+            "verdict": "OK",
+            "num": 55
+        },
+        {
+            "input": ")?)??)?)((??(???)(?((?(?)???()??????(?????????????(?))???)?(??)?????()?????(?)?(?(????(???(??)??()?(??(?(?\n",
+            "output": "930560744\n",
+            "verdict": "OK",
+            "num": 56
+        }
+    ]
+}
