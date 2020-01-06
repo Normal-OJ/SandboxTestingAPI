@@ -131,11 +131,12 @@ def getSubmittion(CONTEST_ID,SUBMISSION_ID,getTestCase):
     if getTestCase == True:
         # extracting data
         for i in range(1,testCaseNum+1):
-            if str(data["input#"+str(i)]).find("...")!=-1 or str(data["answer#"+str(1)]).find("...")!=-1:
+            if str(data["input#"+str(i)]).find("...")!=-1 or str(data["answer#"+str(i)]).find("...")!=-1:
                 continue
+
             testCases.append({
                 "input":str(data["input#"+str(i)]).replace("\r",""),
-                "output":str(data["answer#"+str(1)]).replace("\r",""),
+                "output":str(data["answer#"+str(i)]).replace("\r",""),
                 "verdict":data["verdict#"+str(i)],
                 "num":i
             })
@@ -145,7 +146,7 @@ def getSubmittion(CONTEST_ID,SUBMISSION_ID,getTestCase):
                 "verdict":data["verdict#"+str(i)],
                 "num":i
             })
-    
+
     return sourceCode , data["compilationError"] , testCases
     
 def buildProblemList(CONTEST_ID):
@@ -175,7 +176,7 @@ def buildProblemList(CONTEST_ID):
         if i == "anyProblem":
             continue
         submitIdList = findSpecifySubmissionIds(CONTEST_ID , "OK" , "anyProgramTypeForInvoker" , i)
-        _ , _ , testCases = getSubmittion(CONTEST_ID , submitIdList[0],True)
+        _ , _ , testCases = getSubmittion(CONTEST_ID , submitIdList[0],True)   
         if len(testCases)!=0:
             problemDataSet.update({i:testCases})
     print("done !!!")
@@ -314,9 +315,10 @@ def exportSubmission(submission , metafiles):
 
 
 if __name__ == "__main__":
-    #print(findSpecifySubmissionIds(1265,"OK","c.gcc11"))
-    #getSubmittion(132,61898597)
-    #print(buildProblemList(1169))
+    probemDB = buildProblemList(1265)
+    with open("probDB.json" , "w") as fp:
+        fp.write(json.dumps(probemDB , indent=4))
+    
     problemDB = buildProblemList(1265)
     build_test_case_dict(problemDB)
     os.mkdir("TestCases")
