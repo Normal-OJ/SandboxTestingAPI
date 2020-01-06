@@ -205,6 +205,9 @@ def getProcessedCode(CONTEST_ID , verdictName , programTypeForInvoker , framePro
     targetSubIds = findSpecifySubmissionIds(CONTEST_ID , verdictName , programTypeForInvoker , frameProblemIndex)
 
     codes=[]
+    if len(targetSubIds) > 10:
+        targetSubIds = targetSubIds[:10]
+
     for id in targetSubIds:
         sourceCode , compilationError , testCases = getSubmittion(CONTEST_ID , id ,False)
         
